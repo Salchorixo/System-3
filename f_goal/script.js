@@ -1,48 +1,74 @@
 const currentEl = document.getElementById("current");
 const goalEl = document.getElementById("goal");
-const zyra = document.getElementById("zyra");
+
 const card = document.getElementById("card");
 const plus = document.getElementById("plus");
 
+// VIDEOS (sin cambiar src nunca)
+const idle = document.getElementById("zyra-idle");
+const push = document.getElementById("zyra-push");
+
+// estado
 let currentFollowers = 0;
 let goal = 500;
 
-/* SET INITIAL */
+// init
 goalEl.textContent = goal;
 
-/* ZYRA STATES */
-const IDLE = "zyra_idle.webm";
-const PUSH = "zyra_push.webm";
+// asegurar estado inicial
+idle.classList.add("active");
+push.classList.remove("active");
 
-/* TEST FOLLOW (simulación) */
-function triggerFollow() {
+function triggerFollow(newCount = null) {
 
-  currentFollowers++;
+  // actualizar contador
+  if (newCount !== null) {
+    currentFollowers = newCount;
+  } else {
+    currentFollowers++;
+  }
+
   currentEl.textContent = currentFollowers;
 
-  // Zyra push
-  zyra.src = PUSH;
-  zyra.play();
+  // ------------------------
+  // ZYRA PUSH (sin flicker)
+  // ------------------------
+  push.currentTime = 0;
+  push.play();
 
-  // card push
+  push.classList.add("active");
+  idle.classList.remove("active");
+
+  // ------------------------
+  // CARD ANIMATION
+  // ------------------------
   card.classList.add("push");
 
-  // +1 animation
+  // ------------------------
+  // +1 POP
+  // ------------------------
   plus.classList.add("show-plus");
 
+  // reset después
   setTimeout(() => {
 
-    // back to idle
-    zyra.src = IDLE;
-    zyra.play();
+    // volver idle
+    idle.currentTime = 0;
+    idle.play();
 
+    idle.classList.add("active");
+    push.classList.remove("active");
+
+    // reset UI
     card.classList.remove("push");
     plus.classList.remove("show-plus");
 
-  }, 1000);
+  }, 900);
 }
 
-/* TEST AUTOMÁTICO (para probar) */
+/* -------------------------
+   TEST MODE (puedes quitarlo luego)
+-------------------------- */
 setInterval(() => {
   triggerFollow();
 }, 5000);
