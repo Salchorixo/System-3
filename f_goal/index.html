@@ -1,14 +1,40 @@
-<div id="container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css">
+  <title>Zyra Follower Goal</title>
+</head>
 
-  <div id="zyra-box">
-    <video id="zyra" autoplay muted loop playsinline>
-      <source src="zyra_idle.webm" type="video/webm">
-    </video>
+<body>
+
+  <div id="container">
+
+    <!-- ZYRA -->
+    <div id="zyra-box">
+      <video id="zyra" autoplay muted loop playsinline>
+        <source src="zyra_idle.webm" type="video/webm">
+      </video>
+    </div>
+
+    <!-- CARD -->
+    <div id="card">
+
+      <div class="title">FOLLOWER GOAL</div>
+
+      <div class="count">
+        <span id="current">0</span>
+        <span class="sep"> / </span>
+        <span id="goal">500</span>
+      </div>
+
+      <div id="plus">+1</div>
+
+    </div>
+
   </div>
 
-  <div id="card">
-    FOLLOWER GOAL<br>
-    <span id="current">0</span> / <span id="goal">500</span>
-  </div>
-
-</div>
+  <script src="script.js"></script>
+</body>
+</html>

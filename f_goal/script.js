@@ -1,45 +1,39 @@
-const CHANNEL = "tu_canal_kick";
+const currentEl = document.getElementById("current");
+const goalEl = document.getElementById("goal");
+const zyra = document.getElementById("zyra");
+const card = document.getElementById("card");
+const plus = document.getElementById("plus");
 
-let lastFollowers = 0;
+let currentFollowers = 0;
 let goal = 500;
 
-async function checkFollowers() {
+/* SET INITIAL */
+goalEl.textContent = goal;
 
-  const currentFollowers = await getChannelData();
+/* ZYRA STATES */
+const IDLE = "zyra_idle.webm";
+const PUSH = "zyra_push.webm";
 
-  document.getElementById("current").textContent = currentFollowers;
+/* TEST FOLLOW (simulación) */
+function triggerFollow() {
 
-  if (currentFollowers > lastFollowers) {
-    triggerFollow(currentFollowers);
-  }
+  currentFollowers++;
+  currentEl.textContent = currentFollowers;
 
-  lastFollowers = currentFollowers;
-}
-
-setInterval(checkFollowers, 5000);
-
-function triggerFollow(newCount) {
-
-  // actualizar número
-  document.getElementById("current").textContent = newCount;
-
-  // cambiar Zyra a push
-  const zyra = document.getElementById("zyra");
-  zyra.src = "zyra_push.webm";
+  // Zyra push
+  zyra.src = PUSH;
   zyra.play();
 
-  // mover tarjeta
-  const card = document.getElementById("card");
+  // card push
   card.classList.add("push");
 
-  // +1 efecto
-  const plus = document.getElementById("plus");
+  // +1 animation
   plus.classList.add("show-plus");
 
   setTimeout(() => {
 
-    // volver idle
-    zyra.src = "zyra_idle.webm";
+    // back to idle
+    zyra.src = IDLE;
     zyra.play();
 
     card.classList.remove("push");
@@ -47,3 +41,8 @@ function triggerFollow(newCount) {
 
   }, 1000);
 }
+
+/* TEST AUTOMÁTICO (para probar) */
+setInterval(() => {
+  triggerFollow();
+}, 5000);
