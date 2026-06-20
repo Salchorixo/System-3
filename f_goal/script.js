@@ -4,24 +4,27 @@ const goalEl = document.getElementById("goal");
 const card = document.getElementById("card");
 const plus = document.getElementById("plus");
 
-// VIDEOS (sin cambiar src nunca)
+// VIDEOS (idle / push)
 const idle = document.getElementById("zyra-idle");
 const push = document.getElementById("zyra-push");
 
-// estado
+// STATE
 let currentFollowers = 0;
 let goal = 500;
 
-// init
+// init goal text
 goalEl.textContent = goal;
 
-// asegurar estado inicial
+// ensure initial state
 idle.classList.add("active");
 push.classList.remove("active");
 
+/* -------------------------
+   MAIN EVENT: FOLLOW
+-------------------------- */
 function triggerFollow(newCount = null) {
 
-  // actualizar contador
+  // update counter
   if (newCount !== null) {
     currentFollowers = newCount;
   } else {
@@ -30,29 +33,31 @@ function triggerFollow(newCount = null) {
 
   currentEl.textContent = currentFollowers;
 
-  // ------------------------
-  // ZYRA PUSH (sin flicker)
-  // ------------------------
+  // -------------------------
+  // ZYRA PUSH (no flicker)
+  // -------------------------
   push.currentTime = 0;
   push.play();
 
   push.classList.add("active");
   idle.classList.remove("active");
 
-  // ------------------------
+  // -------------------------
   // CARD ANIMATION
-  // ------------------------
+  // -------------------------
   card.classList.add("push");
 
-  // ------------------------
-  // +1 POP
-  // ------------------------
+  // -------------------------
+  // +1 POP EFFECT
+  // -------------------------
   plus.classList.add("show-plus");
 
-  // reset después
+  // -------------------------
+  // RESET (SYNC 0.9s)
+  // -------------------------
   setTimeout(() => {
 
-    // volver idle
+    // back to idle
     idle.currentTime = 0;
     idle.play();
 
@@ -67,7 +72,7 @@ function triggerFollow(newCount = null) {
 }
 
 /* -------------------------
-   TEST MODE (puedes quitarlo luego)
+   TEST LOOP (REMOVE LATER)
 -------------------------- */
 setInterval(() => {
   triggerFollow();
