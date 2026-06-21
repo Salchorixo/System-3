@@ -4,76 +4,70 @@ const goalEl = document.getElementById("goal");
 const card = document.getElementById("card");
 const plus = document.getElementById("plus");
 
-// VIDEOS (idle / push)
 const idle = document.getElementById("zyra-idle");
 const push = document.getElementById("zyra-push");
 
-// STATE
 let currentFollowers = 0;
 let goal = 500;
 
-// init goal text
 goalEl.textContent = goal;
 
-// ensure initial state
 idle.classList.add("active");
-push.classList.remove("active");
 
 /* -------------------------
-   MAIN EVENT: FOLLOW
+   SAFE TRIGGER (NO RESET BUG)
 -------------------------- */
 function triggerFollow(newCount = null) {
 
   // update counter
-  if (newCount !== null) {
-    currentFollowers = newCount;
-  } else {
-    currentFollowers++;
-  }
-
+  currentFollowers = newCount ?? (currentFollowers + 1);
   currentEl.textContent = currentFollowers;
 
-  // -------------------------
-  // ZYRA PUSH (no flicker)
-  // -------------------------
+  /* -------------------------
+     ZYRA PUSH (LOCKED PLAY)
+  -------------------------- */
+  push.pause();
   push.currentTime = 0;
-  push.play();
 
   push.classList.add("active");
   idle.classList.remove("active");
 
-  // -------------------------
-  // CARD ANIMATION
-  // -------------------------
+  push.play();
+
+  /* -------------------------
+     CARD ANIMATION (FORCED REFLOW SAFE)
+  -------------------------- */
+
+  // reset BEFORE applying again (fixes glitch)
+  card.classList.remove("push");
+  void card.offsetWidth; // 🔥 force reflow hack
+
   card.classList.add("push");
 
-  // -------------------------
-  // +1 POP EFFECT
-  // -------------------------
+  /* -------------------------
+     +1 EFFECT (SAFE RESTART)
+  -------------------------- */
+
+  plus.classList.remove("show-plus");
+  void plus.offsetWidth; // force restart
   plus.classList.add("show-plus");
 
-  // -------------------------
-  // RESET (SYNC 0.9s)
-  // -------------------------
+  /* -------------------------
+     RESET SYNC (0.9s)
+  -------------------------- */
+
   setTimeout(() => {
 
-    // back to idle
     idle.currentTime = 0;
     idle.play();
 
     idle.classList.add("active");
     push.classList.remove("active");
 
-    // reset UI
-    card.classList.remove("push");
-    plus.classList.remove("show-plus");
+    // IMPORTANT: do NOT touch card immediately after animation ends visually
+    setTimeout(() => {
+      card.classList.remove("push");
+    }, 50);
 
   }, 900);
 }
-
-/* -------------------------
-   TEST LOOP (REMOVE LATER)
--------------------------- */
-setInterval(() => {
-  triggerFollow();
-}, 5000);
