@@ -23,9 +23,8 @@ idle.classList.add("active");
 -------------------------- */
 function triggerFollow(newCount = null) {
 
-  // Actualizar contador
+  // 1. MATEMÁTICA: Actualizamos la variable interna al instante (para no perder la cuenta)
   currentFollowers = newCount ?? (currentFollowers + 1);
-  currentEl.textContent = currentFollowers;
 
   // Limpiamos los temporizadores por si hay follows muy rápidos
   clearTimeout(cardResetTimeout);
@@ -42,14 +41,16 @@ function triggerFollow(newCount = null) {
 
   push.play().then(() => {
     requestAnimationFrame(() => {
-      // 1. Mostramos el video de empuje
+      // Mostramos el video de empuje
       push.classList.add("active");
       idle.classList.remove("active");
 
-      // 2. EL GOLPE PERFECTO (Delay controlado por JS)
-      // ⏱️ Ajusta este número (ej. 600 = 0.6 segundos) para que cuadre EXACTO con el movimiento de Zyra
+      // 2. EL GOLPE PERFECTO (Delay a 500ms)
       impactTimeout = setTimeout(() => {
         
+        // VISUAL: ¡Actualizamos el número en pantalla justo en el momento del impacto!
+        currentEl.textContent = currentFollowers;
+
         // Empuja la tarjeta
         card.classList.add("push");
 
@@ -57,7 +58,7 @@ function triggerFollow(newCount = null) {
         void plus.offsetWidth; // Force restart para la animación
         plus.classList.add("show-plus");
 
-      }, 600); 
+      }, 500); 
 
     });
   }).catch(err => console.log("Autoplay bloqueado:", err));
