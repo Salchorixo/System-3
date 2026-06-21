@@ -28,8 +28,8 @@ body {
    ZYRA CONTAINER
 -------------------------- */
 #zyra-box {
-  width: 190px;  /* ⬅️ Zyra más grande */
-  height: 190px; /* ⬅️ Zyra más grande */
+  width: 400px;  /* ⬅️ Zyra más grande */
+  height: 400px; /* ⬅️ Zyra más grande */
   flex-shrink: 0;
 
   position: relative;
