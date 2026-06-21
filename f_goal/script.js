@@ -71,3 +71,12 @@ function triggerFollow(newCount = null) {
 
   }, 900);
 }
+
+/* -------------------------
+   TEST AUTOMÁTICO (BORRAR EN PRODUCCIÓN)
+-------------------------- */
+// Esto simula un follow nuevo cada 3 segundos (3000 ms)
+// Recuerda borrar o comentar esta parte cuando lo vayas a conectar de verdad en el stream
+setInterval(() => {
+  triggerFollow();
+}, 3000);
