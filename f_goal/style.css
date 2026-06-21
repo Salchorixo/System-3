@@ -77,28 +77,20 @@ body {
 }
 
 /* -------------------------
-   PUSH ANIMATION (CRÍTICO)
+   PUSH ANIMATION
 -------------------------- */
 #card.push {
-  /* Le puse 12px para que el empuje se note bien, puedes ajustarlo */
   transform: translateX(12px);
-
-  /* 👇 ANIMACIÓN DE IDA (EL GOLPE) */
-  /* El último valor (0.4s) es el DELAY. 
-     Cambia este 0.4s según el milisegundo exacto en el que Zyra impacta la tarjeta */
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1) 2s;
+  /* Solo la duración de 0.2s, le quitamos el delay al final */
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1); 
 }
 
 /* -------------------------
    +1 FLOAT
 -------------------------- */
-#plus {
-  position: absolute;
-  top: -10px;
-  right: 10px;
-  opacity: 0;
-  font-weight: bold;
-  pointer-events: none;
+.show-plus {
+  /* Le quitamos el delay aquí también */
+  animation: floatUp 0.9s ease forwards;
 }
 
 .show-plus {
