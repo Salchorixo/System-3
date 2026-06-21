@@ -117,7 +117,6 @@ body {
   pointer-events: none;
 }
 
-/* IMPORTANTE: reinicio seguro */
 .show-plus {
   animation: floatUp 0.9s ease forwards;
 }
@@ -127,9 +126,11 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   20% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
     transform: translateY(-20px);

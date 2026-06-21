@@ -49,7 +49,7 @@ function triggerFollow(newCount = null) {
   -------------------------- */
 
   plus.classList.remove("show-plus");
-  void plus.offsetWidth; // force restart
+  void plus.offsetWidth; // 🔥 force restart animation
   plus.classList.add("show-plus");
 
   /* -------------------------
