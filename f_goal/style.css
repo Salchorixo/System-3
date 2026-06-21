@@ -28,8 +28,8 @@ body {
    ZYRA CONTAINER
 -------------------------- */
 #zyra-box {
-  width: 400px;  /* ⬅️ Zyra más grande */
-  height: 400px; /* ⬅️ Zyra más grande */
+  width: 300px;  /* ⬅️ Zyra más grande */
+  height: 300px; /* ⬅️ Zyra más grande */
   flex-shrink: 0;
 
   position: relative;
@@ -66,6 +66,8 @@ body {
   
   /* ⬅️ ¡NUEVO! La tarjeta se queda por debajo de la manito */
   z-index: 1; 
+
+  top: 100px;
   
   width: 220px;
   padding: 12px 16px;
