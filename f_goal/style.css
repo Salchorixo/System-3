@@ -86,7 +86,7 @@ body {
   /* 👇 ANIMACIÓN DE IDA (EL GOLPE) */
   /* El último valor (0.4s) es el DELAY. 
      Cambia este 0.4s según el milisegundo exacto en el que Zyra impacta la tarjeta */
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1) 2s;
 }
 
 /* -------------------------
@@ -105,7 +105,7 @@ body {
   /* 👇 DELAY DEL +1 */
   /* También le agregamos el delay de 0.4s aquí para que el +1 aparezca 
      justo en el momento del impacto, no antes */
-  animation: floatUp 0.9s ease 0.4s forwards;
+  animation: floatUp 0.9s ease 1s forwards;
 }
 
 /* texto */
