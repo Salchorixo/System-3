@@ -102,3 +102,24 @@ kickChannel.bind('App\\Events\\FollowersUpdated', function(data) {
   triggerFollow(data.followersCount);
   
 });
+
+/* -------------------------
+   CARGAR SEGUIDORES INICIALES
+-------------------------- */
+async function getInitialFollowers() {
+  try {
+    // Le preguntamos directamente a tu canal de Kick
+    const response = await fetch("https://kick.com/api/v1/channels/salchorizo");
+    const data = await response.json();
+    
+    // Actualizamos el número interno y el de la pantalla de inmediato
+    currentFollowers = data.followersCount;
+    currentEl.textContent = currentFollowers;
+    
+  } catch (error) {
+    console.log("Ups, no pude obtener los seguidores iniciales:", error);
+  }
+}
+
+// Ejecutamos la función apenas se abre el widget en OBS
+getInitialFollowers();
