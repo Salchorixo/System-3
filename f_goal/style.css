@@ -67,7 +67,7 @@ body {
   /* ⬅️ ¡NUEVO! La tarjeta se queda por debajo de la manito */
   z-index: 1; 
 
-  top: 100px;
+  top: 50px;
   
   width: 220px;
   padding: 12px 16px;
