@@ -81,9 +81,24 @@ function triggerFollow(newCount = null) {
 }
 
 /* -------------------------
-   TEST AUTOMÁTICO (BORRAR EN PRODUCCIÓN)
+   CONEXIÓN EN VIVO A KICK
 -------------------------- */
-// Simula un follow cada 5 segundos para que te dé tiempo de ver toda la animación
-setInterval(() => {
-  triggerFollow();
-}, 5000);
+// 1. Pega aquí tu ID secreto entre las comillas
+const chatroomId = "49029223"; 
+
+// 2. Encendemos la antena (Estos datos son públicos de Kick)
+const pusher = new Pusher('32cbd69e4b950bf97679', {
+  cluster: 'us2',
+  forceTLS: true
+});
+
+// 3. Nos sintonizamos a tu canal
+const kickChannel = pusher.subscribe(`channel.${chatroomId}`);
+
+// 4. Escuchamos en tiempo real. ¡Cuando alguien te siga, Zyra ataca!
+kickChannel.bind('App\\Events\\FollowersUpdated', function(data) {
+  
+  // Le mandamos a tu función de Zyra la cantidad exacta de seguidores actuales
+  triggerFollow(data.followersCount);
+  
+});
