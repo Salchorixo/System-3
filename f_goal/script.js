@@ -9,13 +9,14 @@ const push = document.getElementById("zyra-push");
 
 let currentFollowers = 0;
 let goal = 500;
+let cardResetTimeout; // Variable para controlar los clicks rápidos
 
 goalEl.textContent = goal;
 
 idle.classList.add("active");
 
 /* -------------------------
-   SAFE TRIGGER (NO RESET BUG)
+   SAFE TRIGGER
 -------------------------- */
 function triggerFollow(newCount = null) {
 
@@ -23,60 +24,56 @@ function triggerFollow(newCount = null) {
   currentFollowers = newCount ?? (currentFollowers + 1);
   currentEl.textContent = currentFollowers;
 
-  /* -------------------------
-     ZYRA PUSH (LOCKED PLAY)
-  -------------------------- */
-  push.pause();
-  push.currentTime = 0;
-
-  push.classList.add("active");
-  idle.classList.remove("active");
-
-  push.play();
+  // Limpiamos cualquier temporizador anterior por si hay follows muy rápidos
+  clearTimeout(cardResetTimeout);
 
   /* -------------------------
-     CARD ANIMATION (FORCED REFLOW SAFE)
+     CARD ANIMATION & +1
   -------------------------- */
-
-  // reset BEFORE applying again (fixes glitch)
   card.classList.remove("push");
-  void card.offsetWidth; // 🔥 force reflow hack
-
+  void card.offsetWidth; 
   card.classList.add("push");
 
-  /* -------------------------
-     +1 EFFECT (SAFE RESTART)
-  -------------------------- */
-
   plus.classList.remove("show-plus");
-  void plus.offsetWidth; // 🔥 force restart animation
+  void plus.offsetWidth; 
   plus.classList.add("show-plus");
 
   /* -------------------------
-     RESET SYNC (0.9s)
+     ZYRA PUSH (SMOOTH SWITCH)
   -------------------------- */
+  push.currentTime = 0;
 
-  setTimeout(() => {
+  // Esperamos a que el video REALMENTE empiece a reproducirse antes de hacer el cambio visual
+  push.play().then(() => {
+    // requestAnimationFrame asegura que el navegador ya pintó el frame
+    requestAnimationFrame(() => {
+      push.classList.add("active");
+      idle.classList.remove("active");
+    });
+  }).catch(err => console.log("Autoplay bloqueado:", err));
 
+  /* -------------------------
+     ESPERAR A QUE EL VIDEO TERMINE (NO MÁS CORTES)
+  -------------------------- */
+  push.onended = () => {
+    // Cuando el video de empujar termina su duración real, volvemos al idle
     idle.currentTime = 0;
     idle.play();
-
+    
     idle.classList.add("active");
     push.classList.remove("active");
 
-    // IMPORTANT: do NOT touch card immediately after animation ends visually
-    setTimeout(() => {
+    // Retiramos la tarjeta suavemente cuando Zyra termina
+    cardResetTimeout = setTimeout(() => {
       card.classList.remove("push");
     }, 50);
-
-  }, 900);
+  };
 }
 
 /* -------------------------
    TEST AUTOMÁTICO (BORRAR EN PRODUCCIÓN)
 -------------------------- */
-// Esto simula un follow nuevo cada 3 segundos (3000 ms)
-// Recuerda borrar o comentar esta parte cuando lo vayas a conectar de verdad en el stream
+// Subí el tiempo a 5 segundos para que te dé tiempo de ver la animación completa
 setInterval(() => {
   triggerFollow();
-}, 3000);
+}, 5000);

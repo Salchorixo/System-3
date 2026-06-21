@@ -38,17 +38,16 @@ body {
 }
 
 /* VIDEOS */
+/* VIDEOS */
 .zyra-video {
   position: absolute;
   width: 100%;
   height: 100%;
-
   object-fit: contain;
-
   opacity: 0;
 
-  /* transición suave SIN corte */
-  transition: opacity 0.12s linear;
+  /* Quita la transición de opacity para que el corte sea limpio (Hard Cut) */
+  /* transition: opacity 0.12s linear; */ 
 
   will-change: opacity;
 }
